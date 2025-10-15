@@ -12,7 +12,7 @@ const Car = sequelize.define('Car', {
   location: { type: DataTypes.STRING },
   condition: { type: DataTypes.ENUM('Usado','Seminuevo','Nuevo'), defaultValue: 'Usado' },
   description: { type: DataTypes.TEXT },
-  image_url: { type: DataTypes.STRING },
+  imageUrl: { type: DataTypes.STRING },
 }, {
   tableName: 'cars',
   underscored: true,

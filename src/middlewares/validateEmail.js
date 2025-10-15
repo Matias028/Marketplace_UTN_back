@@ -1,3 +1,5 @@
+
+
 export const validateEmail = (req, res, next) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ message: 'Email requerido' });
@@ -5,3 +7,4 @@ export const validateEmail = (req, res, next) => {
   if (!re.test(email)) return res.status(400).json({ message: 'Email inválido' });
   next();
 };
+

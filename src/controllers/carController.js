@@ -31,11 +31,11 @@ export const getCarById = async (req, res) => {
 
 export const createCar = async (req, res) => {
   try {
-    const { title, brand, model, year, price, mileage, location, condition, description, image_url } = req.body;
-    const user_id = req.user?.id;
+    const { title, brand, model, year, price, mileage, location, condition, description, imageUrl } = req.body;
+    const user_id = req.user?.id; 
     if (!user_id) return res.status(401).json({ message: 'No autorizado' });
 
-    const car = await Car.create({ user_id, title, brand, model, year, price, mileage, location, condition, description, image_url });
+    const car = await Car.create({ user_id, title, brand, model, year, price, mileage, location, condition, description, imageUrl });
     res.status(201).json(car);
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -6,8 +6,16 @@ import authRoutes from './routes/authRoutes.js';
 import carRoutes from './routes/carRoutes.js';
 
 dotenv.config();
+
 const app = express();
-app.use(cors());
+
+
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
+
 app.use(express.json());
 
 
@@ -20,13 +28,14 @@ app.get('/api/health', (req, res) => res.json({
   health: 'API is running'
 }));
 
-const PORT = process.env.PORT || 4000;
+
+const PORT = process.env.PORT || 8080;
 
 const start = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ Base de datos conectada');
-    await sequelize.sync({ alter: true }); 
+    await sequelize.sync({ alter: true });
     console.log('✅ Base de datos sincronizada');
     app.listen(PORT, () => console.log(`✅ Backend running on http://localhost:${PORT}`));
   } catch (err) {

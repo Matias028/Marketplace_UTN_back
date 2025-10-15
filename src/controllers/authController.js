@@ -2,7 +2,7 @@ import User from '../models/User.js';
 import { hashPassword, comparePassword } from '../utils/hash.js';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
+const JWT_SECRET = process.env.JWT_SECRET || '';
 
 export const register = async (req, res) => {
   const { name, email, password, phone, city } = req.body;

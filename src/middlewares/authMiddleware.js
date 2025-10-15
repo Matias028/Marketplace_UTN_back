@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
+const JWT_SECRET = process.env.JWT_SECRET ;
 
 export const authMiddleware = (req, res, next) => {
   const header = req.headers.authorization;
@@ -15,3 +15,5 @@ export const authMiddleware = (req, res, next) => {
     return res.status(403).json({ message: 'Token inválido' });
   }
 };
+
+

@@ -20,7 +20,7 @@ app.use(express.json());
 
 
 app.use('/api/auth', authRoutes);
-app.use('/api/cars', carRoutes);
+app.use('/api/car', carRoutes);
 
 
 app.get('/api/health', (req, res) => res.json({

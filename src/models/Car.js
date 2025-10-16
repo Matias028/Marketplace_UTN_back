@@ -14,11 +14,11 @@ const Car = sequelize.define('Car', {
   description: { type: DataTypes.TEXT },
   imageUrl: { type: DataTypes.STRING },
 }, {
-  tableName: 'cars',
+  tableName: 'car',
   underscored: true,
 });
 
-User.hasMany(Car, { foreignKey: 'user_id', as: 'cars' });
+User.hasMany(Car, { foreignKey: 'user_id', as: 'car' });
 Car.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 
 export default Car;

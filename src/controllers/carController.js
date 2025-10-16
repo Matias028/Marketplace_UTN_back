@@ -2,16 +2,16 @@ import Car from '../models/Car.js';
 import CarImage from '../models/CarImage.js';
 import User from '../models/User.js';
 
-export const getCars = async (req, res) => {
+export const getcar = async (req, res) => {
   try {
-    const cars = await Car.findAll({
+    const car = await Car.findAll({
       include: [
         { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
         { model: CarImage, as: 'images' }
       ],
       order: [['created_at','DESC']],
     });
-    res.json(cars);
+    res.json(car);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

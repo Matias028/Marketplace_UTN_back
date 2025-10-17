@@ -1,24 +1,37 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.js';
-import User from './User.js';
+import { DataTypes } from "sequelize";
+import sequelize from "../config/db.js";
+import User from "./User.js";
 
-const Car = sequelize.define('Car', {
-  title: { type: DataTypes.STRING },
-  brand: { type: DataTypes.STRING },
-  model: { type: DataTypes.STRING },
-  year: { type: DataTypes.INTEGER },
-  price: { type: DataTypes.DECIMAL(12,2) },
-  mileage: { type: DataTypes.INTEGER },
-  location: { type: DataTypes.STRING },
-  condition: { type: DataTypes.ENUM('Usado','Seminuevo','Nuevo'), defaultValue: 'Usado' },
-  description: { type: DataTypes.TEXT },
-  imageUrl: { type: DataTypes.STRING },
+const Car = sequelize.define("Car", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  title: DataTypes.STRING,
+  brand: DataTypes.STRING,
+  model: DataTypes.STRING,
+  year: DataTypes.INTEGER,
+  price: DataTypes.DECIMAL(12, 2),
+  mileage: DataTypes.INTEGER,
+  location: DataTypes.STRING,
+  condition: {
+    type: DataTypes.ENUM("Usado", "Seminuevo", "Nuevo"),
+    defaultValue: "Usado"
+  },
+  description: DataTypes.TEXT,
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
 }, {
-  tableName: 'car',
+  tableName: "car",  
   underscored: true,
+  timestamps: false
 });
 
-User.hasMany(Car, { foreignKey: 'user_id', as: 'car' });
-Car.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+
+User.hasMany(Car, { foreignKey: "user_id", as: "cars" });
+Car.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 export default Car;

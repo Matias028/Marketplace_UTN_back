@@ -11,7 +11,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'], 
 }));
@@ -25,7 +25,7 @@ app.use('/api/car', carRoutes);
 
 app.get('/api/health', (req, res) => res.json({
   ok: true,
-  health: 'API is running'
+  health: 'API ok'
 }));
 
 
@@ -35,7 +35,7 @@ const start = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ Base de datos conectada');
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log('✅ Base de datos sincronizada');
     app.listen(PORT, () => console.log(`✅ Backend running on http://localhost:${PORT}`));
   } catch (err) {

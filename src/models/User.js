@@ -7,6 +7,8 @@ const User = sequelize.define('User', {
   password: { type: DataTypes.STRING, allowNull: false },
   phone: { type: DataTypes.STRING },
   city: { type: DataTypes.STRING },
+  is_verified: { type: DataTypes.BOOLEAN, defaultValue: false },
+  verification_token: { type: DataTypes.STRING },
 }, {
   tableName: 'users',
   underscored: true,

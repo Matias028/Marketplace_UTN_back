@@ -37,7 +37,7 @@ const start = async () => {
     console.log('✅ Base de datos conectada');
     await sequelize.sync();
     console.log('✅ Base de datos sincronizada');
-    app.listen(PORT, () => console.log(`✅ Backend running on http://localhost:${PORT}`));
+    app.listen(process.env.PORT, () => console.log(`✅ Backend running on ${process.env.BACKEND_URL}`));
   } catch (err) {
     console.error('❌ Error:', err);
     process.exit(1);

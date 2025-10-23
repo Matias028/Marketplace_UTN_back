@@ -9,27 +9,13 @@ dotenv.config();
 
 const app = express();
 
-import cors from 'cors';
-
-
-const allowedOrigins = [
-  process.env.FRONTEND_URL
-];
-
 app.use(cors({
-  origin: function(origin, callback) {
-    
-    if(!origin) return callback(null, true);
-    if(!allowedOrigins.includes(origin)) {
-      const msg = `CORS bloqueó el acceso de: ${origin}`;
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  methods: ['GET','POST','PUT','DELETE'],
+  origin: process.env.FRONTEND_URL, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  allowedHeaders: ['Content-Type','Authorization']
 }));
+
 
 app.use(express.json());
 

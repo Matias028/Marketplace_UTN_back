@@ -10,9 +10,6 @@ dotenv.config();
 const app = express();
 
 
-import cors from "cors";
-
-
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   "http://localhost:3000"
@@ -20,11 +17,14 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback){
-    if(!origin) return callback(null, true); 
-    if(allowedOrigins.indexOf(origin) === -1){
+
+    if(!origin) return callback(null, true);
+
+    if(!allowedOrigins.includes(origin)){
       const msg = `La política CORS bloqueó el acceso de: ${origin}`;
       return callback(new Error(msg), false);
     }
+
     return callback(null, true);
   },
   methods: ["GET","POST","PUT","DELETE"],
@@ -45,7 +45,7 @@ app.get('/api/health', (req, res) => res.json({
 }));
 
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT || 8080;
 
 const start = async () => {
   try {
@@ -53,7 +53,8 @@ const start = async () => {
     console.log('✅ Base de datos conectada');
     await sequelize.sync();
     console.log('✅ Base de datos sincronizada');
-    app.listen(process.env.PORT, () => console.log(`✅ Backend running on ${process.env.PORT}`));
+
+    app.listen(PORT, () => console.log(`✅ Backend running on port ${PORT}`));
   } catch (err) {
     console.error('❌ Error:', err);
     process.exit(1);

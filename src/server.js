@@ -9,28 +9,37 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL, 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,    
+  "http://localhost:3000"      
+];
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (!allowedOrigins.includes(origin)) {
+      const msg = `CORS bloqueó el acceso de: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET','POST','PUT','DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type','Authorization']
+}));
 
 app.use(express.json());
 
 
 app.use('/api/auth', authRoutes);
 app.use('/api/car', carRoutes);
-
-
 app.get('/api/health', (req, res) => res.json({
   ok: true,
   health: 'API ok'
 }));
 
-
 const PORT = process.env.PORT || 8080;
+
 
 const start = async () => {
   try {
@@ -39,9 +48,9 @@ const start = async () => {
     await sequelize.sync();
     console.log('✅ Base de datos sincronizada');
 
-    app.listen(PORT, () => console.log(`✅ Backend running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`✅ Backend corriendo en puerto ${PORT}`));
   } catch (err) {
-    console.error('❌ Error:', err);
+    console.error('❌ Error al iniciar el servidor:', err);
     process.exit(1);
   }
 };

@@ -8,8 +8,8 @@ export const getcar = async (req, res) => {
     const cars = await Car.findAll({
       include: [
         { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
-        { model: CarImage, as: 'images' }
-      ]
+        { model: CarImage, as: 'images' },
+      ],
     });
     res.json(cars);
   } catch (err) {
@@ -17,13 +17,12 @@ export const getcar = async (req, res) => {
   }
 };
 
-
 export const getCarById = async (req, res) => {
   try {
     const car = await Car.findByPk(req.params.id, {
       include: [
         { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
-        { model: CarImage, as: 'images' }
+        { model: CarImage, as: 'images' },
       ],
     });
     if (!car) return res.status(404).json({ message: 'Auto no encontrado' });
@@ -32,7 +31,6 @@ export const getCarById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 export const getCarsByUser = async (req, res) => {
   try {
@@ -42,9 +40,8 @@ export const getCarsByUser = async (req, res) => {
       where: { user_id: userId },
       include: [
         { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
-        { model: CarImage, as: 'images' }
+        { model: CarImage, as: 'images' },
       ],
-      /* order: [['id', 'DESC']] */
     });
 
     res.json(cars);
@@ -52,8 +49,6 @@ export const getCarsByUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-
 
 export const createCar = async (req, res) => {
   try {
@@ -63,19 +58,17 @@ export const createCar = async (req, res) => {
 
     const car = await Car.create({ user_id, title, brand, model, year, price, mileage, location, condition, description });
 
-  
     if (imageUrl) {
       await CarImage.create({
         car_id: car.id,
-        url: imageUrl
+        url: imageUrl,
       });
     }
 
-  
     const carWithImages = await Car.findByPk(car.id, {
       include: [
         { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
-        { model: CarImage, as: 'images' }
+        { model: CarImage, as: 'images' },
       ],
     });
 
@@ -85,16 +78,35 @@ export const createCar = async (req, res) => {
   }
 };
 
-
 export const updateCar = async (req, res) => {
   try {
-    const car = await Car.findByPk(req.params.id);
+    const { id } = req.params;
+    const { imageUrl, ...updateData } = req.body;
+
+    const car = await Car.findByPk(id, { include: { model: CarImage, as: 'images' } });
     if (!car) return res.status(404).json({ message: 'Auto no encontrado' });
     if (car.user_id !== req.user.id) return res.status(403).json({ message: 'No autorizado para editar' });
+    await car.update(updateData);
 
-    await car.update(req.body);
-    res.json(car);
+  
+    if (imageUrl) {
+      if (car.images && car.images.length > 0) {
+        await CarImage.update({ url: imageUrl }, { where: { car_id: car.id } });
+      } else {
+        await CarImage.create({ car_id: car.id, url: imageUrl });
+      }
+    }
+
+    const updatedCar = await Car.findByPk(car.id, {
+      include: [
+        { model: User, as: 'user', attributes: ['id','name','email','phone','city'] },
+        { model: CarImage, as: 'images' },
+      ],
+    });
+
+    res.json(updatedCar);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -106,8 +118,10 @@ export const deleteCar = async (req, res) => {
     if (!car) return res.status(404).json({ message: 'Auto no encontrado' });
     if (car.user_id !== req.user.id) return res.status(403).json({ message: 'No autorizado para eliminar' });
 
+    await CarImage.destroy({ where: { car_id: car.id } });
     await car.destroy();
-    res.json({ message: 'Auto eliminado' });
+
+    res.json({ message: 'Auto e imágenes eliminados correctamente' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -2,13 +2,6 @@ import Sequelize from 'sequelize';
 import mysql2 from 'mysql2';
 
 
-const requiredEnv = ['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST'];
-for (const key of requiredEnv) {
-  if (!process.env[key]) {
-    throw new Error(`La variable de entorno ${key} no está definida.`);
-  }
-}
-
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,

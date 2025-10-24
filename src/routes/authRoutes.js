@@ -22,14 +22,14 @@ router.get("/verify", async (req, res) => {
         message =
         "Lo sentimos, no pudimos encontrar una cuenta asociada con este enlace.";
         btnText = "Registrarse";
-        btnLink = "http://localhost:3000/register";
+        btnLink = `${process.env.FRONTEND_URL}/register`;
       alertColor = "#000"; // negro
     } else if (user.is_verified) {
         title = "Cuenta ya verificada";
         message =
         "Tu cuenta ya fue verificada anteriormente. ¡Puedes iniciar sesión!";
         btnText = "Iniciar Sesión";
-        btnLink = "http://localhost:3000/login";
+        btnLink = `${process.env.FRONTEND_URL}/login`;
       alertColor = "#000"; // negro
     } else {
         user.is_verified = true;
@@ -40,7 +40,7 @@ router.get("/verify", async (req, res) => {
         message =
             "¡Gracias por verificar tu correo! Ahora puedes iniciar sesión en nuestra plataforma.";
         btnText = "Iniciar Sesión";
-        btnLink = "http://localhost:3000/login";
+        btnLink = `${process.env.FRONTEND_URL}/login`;
       alertColor = "#48bb78a2"; // verde
     }
 
@@ -164,7 +164,7 @@ router.get("/verify", async (req, res) => {
         <div class="container">
             <h1>Token inválido o expirado ❌</h1>
             <p>El enlace de verificación ya no es válido. Intenta registrarte nuevamente.</p>
-            <a href="http://localhost:3000/register" class="btn">Registrarse</a>
+            <a href="${process.env.FRONTEND_URL}/register" class="btn">Registrarse</a>
         </div>
         </body>
         </html>

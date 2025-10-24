@@ -47,7 +47,7 @@ export const register = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   try {
-    const { token } = req.query; // <-- cambio aquí
+    const { token } = req.query;
     const decoded = jwt.verify(token, JWT_SECRET);
 
     const user = await User.findOne({ where: { email: decoded.email } });

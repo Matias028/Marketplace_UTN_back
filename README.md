@@ -25,7 +25,7 @@ En la DB , desplegue en CLeverCloud , teniendo muchos problemas en la capa gratu
         idle: 10000,
       }*
       
-Me falto agregar un *recupero de contraseña* por falta de tiempo. 
+Me falto agregar un *recupero de contraseña* por falta de tiempo y hacer un listado de publicaciones en la pagina de inicio (que solo aparezcan maximo 10 vehiculos y la cantidad de paginas restantes) . 
 
 
 

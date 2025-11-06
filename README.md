@@ -30,3 +30,6 @@ Me falto agregar un *recupero de contraseña* por falta de tiempo y hacer un lis
 
 
 Aprovechando el espacio , queria agradecer por la cursada, tanto al tutor Lautaro como al profesor Matias . La verdad que aprendi un monton, siempre fueron muy atentos y respetuosos , respondiendo cada duda con paciciencia y claridad . 
+Dejo a continuacion, la documentacion de POSTMAN con los endpoints utilizados. 
+Muchas gracias !!
+[API_MArketPlace_autos.postman_collection.json](https://github.com/user-attachments/files/23404305/API_MArketPlace_autos.postman_collection.json)
